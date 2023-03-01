@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Twitter Clone - Final</title>
-    <link rel="stylesheet" href="{{ URL::asset('../css/styles.css')}}">
+    <link rel="stylesheet" href="{{ URL::asset('/css/styles.css')}}">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
     <link
       rel="stylesheet"
@@ -13,6 +13,17 @@
       integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
       crossorigin="anonymous"
     />
+    <link 
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet" 
+      integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" 
+      crossorigin="anonymous"
+    />
+    <script 
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" 
+      integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" 
+      crossorigin="anonymous">
+    </script>
   </head>
   <body>
     <!-- sidebar starts -->
@@ -57,14 +68,57 @@
         <span class="material-icons"> more_horiz </span>
         <h2>More</h2>
       </div>
-      <button class="sidebar__tweet">Tweet</button>
-      
-      <div class="sidebarOption">
+
+      <!-- Button trigger modal -->
+      <button class="sidebar__tweet" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        Tweet
+      </button>
+
+      <!-- Modal -->
+      <div class="modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form>
+                <div class="row">
+                  <div class="col-md-auto">
+                    <span class="material-icons">
+                      <img src="https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png" alt="" height="50" width="50"/>
+                    </span>
+                  </div>
+                  <div class="col">
+                    <textarea class="form-control" id="message-text" placeholder="What's happening?"></textarea>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="tweetBox__tweetButton">Tweet</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebarOption dropup" data-bs-toggle="dropdown" aria-expanded="false">  
         <span class="material-icons">
           <img src="https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png" alt="" height="50" width="50"/>
         </span>
-        {{ Auth::user()->name }}<br>
-        @Johndoe
+        <div class="row">
+          <span class="fw-bold">{{ Auth::user()->name }}</span>
+          <span class="fw-light">@Johndoe</span>
+        </div>
+        <ul class="dropdown-menu">
+          <li>
+            <a class="dropdown-item" href="{{ route('logout') }}"onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+            {{ __('Log out') }}</a>
+          </li>
+          <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+              @csrf
+          </form>
+        </ul>
       </div>
     </div>
     <!-- sidebar ends -->
@@ -83,7 +137,7 @@
               src="https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png"
               alt=""
             />
-            <input type="text" placeholder="What's happening?" />
+            <input class="text-break" type="text" placeholder="What's happening?" />
           </div>
           <button class="tweetBox__tweetButton">Tweet</button>
         </form>
@@ -166,7 +220,7 @@
 
     <!-- widgets starts -->
     <div class="widgets">
-      <div class="widgets__input">
+      <div class="widgets__input tweetbox__input">
         <span class="material-icons widgets__searchIcon"> search </span>
         <input type="text" placeholder="Search Twitter" />
       </div>
@@ -192,15 +246,6 @@
         </blockquote>
         <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
       </div>
-      <a class="dropdown-item" href="{{ route('logout') }}"
-      onclick="event.preventDefault();
-                    document.getElementById('logout-form').submit();">
-       {{ __('Cerrar Sesión') }}
-   </a>
-
-   <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-       @csrf
-   </form>
     </div>
     <!-- widgets ends -->
   </body>
