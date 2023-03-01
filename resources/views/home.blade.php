@@ -24,7 +24,7 @@
       </div>
 
       <div class="sidebarOption">
-        <span class="material-icons"> search </span>
+        <span class="material-icons"> tag </span>
         <h2>Explore</h2>
       </div>
 
@@ -58,6 +58,14 @@
         <h2>More</h2>
       </div>
       <button class="sidebar__tweet">Tweet</button>
+      
+      <div class="sidebarOption">
+        <span class="material-icons">
+          <img src="https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png" alt="" height="50" width="50"/>
+        </span>
+        {{ Auth::user()->name }}<br>
+        @Johndoe
+      </div>
     </div>
     <!-- sidebar ends -->
 
@@ -184,6 +192,15 @@
         </blockquote>
         <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
       </div>
+      <a class="dropdown-item" href="{{ route('logout') }}"
+      onclick="event.preventDefault();
+                    document.getElementById('logout-form').submit();">
+       {{ __('Cerrar Sesión') }}
+   </a>
+
+   <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+       @csrf
+   </form>
     </div>
     <!-- widgets ends -->
   </body>
