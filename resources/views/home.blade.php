@@ -78,26 +78,27 @@
       <div class="modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <form>
-                <div class="row">
-                  <div class="col-md-auto">
-                    <span class="material-icons">
-                      <img src="https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png" alt="" height="50" width="50"/>
-                    </span>
+            <form action="{{ route('tweet.store') }}" method="POST">
+              @csrf
+              <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                  <div class="row">
+                    <div class="col-md-auto">
+                      <span class="material-icons">
+                        <img src="https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png" alt="" height="50" width="50"/>
+                      </span>
+                    </div>
+                    <div class="col">
+                      <textarea class="form-control" name="text" placeholder="What's happening?"></textarea>
+                    </div>
                   </div>
-                  <div class="col">
-                    <textarea class="form-control" id="message-text" placeholder="What's happening?"></textarea>
-                  </div>
-                </div>
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="tweetBox__tweetButton">Tweet</button>
-            </div>
+              </div>
+              <div class="modal-footer">
+                <button type="submit" class="tweetBox__tweetButton">Tweet</button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
@@ -108,7 +109,7 @@
         </span>
         <div class="row">
           <span class="fw-bold">{{ Auth::user()->name }}</span>
-          <span class="fw-light">@Johndoe</span>
+          <span class="fw-light">{{ Auth::user()->account }}</span>
         </div>
         <ul class="dropdown-menu">
           <li>
@@ -131,18 +132,62 @@
 
       <!-- tweetbox starts -->
       <div class="tweetBox">
-        <form>
+        <form action="{{ route('tweet.store') }}" method="POST">
+          @csrf
           <div class="tweetbox__input">
             <img
               src="https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png"
               alt=""
             />
-            <input class="text-break" type="text" placeholder="What's happening?" />
+            <input type="text" name="text" placeholder="What's happening?" />
           </div>
           <button class="tweetBox__tweetButton">Tweet</button>
         </form>
       </div>
       <!-- tweetbox ends -->
+
+      <!-- post starts -->
+      @forelse ($tweets as $view)
+      <div class="post">
+        <div class="post__avatar">
+          <img
+            src="https://i.pinimg.com/originals/a6/58/32/a65832155622ac173337874f02b218fb.png"
+            alt=""
+          />
+        </div>
+
+        <div class="post__body">
+          <div class="post__header">
+            <div class="post__headerText">
+              <h3>
+                <span class="fw-bold">{{ $view->user->name }}</span>
+                <span class="post__headerSpecial">
+                  <span class="material-icons post__badge"> verified </span>
+                  {{ $view->user->account . " - " . $view->created_at}}
+                </span>
+              </h3>
+            </div>
+            <div class="post__headerDescription">
+              <p>{{ $view->text }}</p>
+            </div>
+          </div>
+          <img
+            src="{{ url('images/'.$view->image) }}"
+            alt=""
+          />
+          <div class="post__footer">
+            <span class="material-icons"> repeat </span>
+            <span class="material-icons"> favorite_border </span>
+            <span class="material-icons"> publish </span>
+          </div>
+        </div>
+      </div>
+      @empty
+        <tr >
+            <td colspan="15"> No hay registros </td>
+        </tr>
+      @endforelse
+      <!-- post ends -->
 
       <!-- post starts -->
       <div class="post">

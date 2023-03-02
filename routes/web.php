@@ -1,6 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TweetController;
+use App\Models\Tweet;
+use App\Models\User;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -12,11 +16,13 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::resource('tweet', TweetController::class);
 
 Route::get('/', function () {
     return view('welcome');
 });
 
 Route::get('/home', function () {
-    return view('home');
-});
+    $tweets = Tweet::orderBy('id', 'desc')->paginate(5);
+    return view('home')->with('tweets',$tweets);
+})->name('index');;
