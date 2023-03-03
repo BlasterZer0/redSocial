@@ -32,20 +32,22 @@ class TweetController extends Controller
     {
         $request->validate([
             'text' => ['required', 'string', 'max:255'],
-            //'image' => 'image|mimes:jpeg,png,jpg|max:2048',
+            'image' => 'image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-       /* if($request->hasFile('image')){
+        if ($request->hasFile('image')) {
             $file = $request->file('image');
             $fileExtension = $file->getClientOriginalName();
             $fileName = $fileExtension;
             $request->file('image')->move(public_path('images'), $fileName);
-        }*/
+        } else {
+            $fileName = FALSE;
+        }
         
         $tweets = Tweet::create([
             'text' => $request['text'],
-            //'image' => $fileName
             'user_id' => Auth::user()->id,
+            'image' => $fileName,
         ]);
         
         //Session::flash('mensaje', 'Registro Creado con Exito!');

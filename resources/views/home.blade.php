@@ -113,8 +113,8 @@
         </div>
         <ul class="dropdown-menu">
           <li>
-            <a class="dropdown-item" href="{{ route('logout') }}"onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-            {{ __('Log out') }}</a>
+            <a class="dropdown-item fw-bold" href="{{ route('logout') }}"onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+            {{ __('Log out ' . Auth::user()->account) }}</a>
           </li>
           <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
               @csrf
@@ -132,7 +132,7 @@
 
       <!-- tweetbox starts -->
       <div class="tweetBox">
-        <form action="{{ route('tweet.store') }}" method="POST">
+        <form action="{{ route('tweet.store') }}" method="POST" enctype="multipart/form-data">
           @csrf
           <div class="tweetbox__input">
             <img
@@ -141,7 +141,14 @@
             />
             <input type="text" name="text" placeholder="What's happening?" />
           </div>
-          <button class="tweetBox__tweetButton">Tweet</button>
+          <div class="image-upload">
+            <label for="file-input">
+              <span class="material-icons"> add_a_photo </span>
+            </label>
+            <input id="file-input" name="image" type="file"/>
+
+            <button class="tweetBox__tweetButton">Tweet</button>
+          </div>
         </form>
       </div>
       <!-- tweetbox ends -->

@@ -142,7 +142,7 @@ body {
   width: 80px;
   height: 40px;
   margin-top: 20px;
-  margin-left: auto;
+  /*margin-left: auto;*/
 }
 
 /* post */
@@ -236,4 +236,17 @@ body {
 .widgets__widgetContainer h2 {
   font-size: 18px;
   font-weight: 800;
+}
+
+/* Personalized CSS*/
+.image-upload > input
+{
+  display: none;
+}
+
+.image-upload span
+{
+  width: 80px;
+  cursor: pointer;
+  align-self: center;
 }
