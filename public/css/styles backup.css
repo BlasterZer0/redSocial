@@ -17,13 +17,14 @@ body {
 
 .sidebarOption .material-icons,
 .fa-twitter {
-  padding: 20px;
+  padding: 15px;
 }
 
 .sidebarOption h2 {
-  font-weight: 800;
+  font-weight: 400;
   font-size: 20px;
   margin-right: 20px;
+  margin-bottom: .2rem;
 }
 
 .sidebarOption:hover {
@@ -45,7 +46,6 @@ body {
   font-weight: 900;
   border-radius: 30px;
   height: 50px;
-  margin-top: 20px;
 }
 
 body {
@@ -62,7 +62,6 @@ body {
   flex: 0.2;
 
   min-width: 250px;
-  margin-top: 20px;
   padding-left: 20px;
   padding-right: 20px;
 }
@@ -143,7 +142,7 @@ body {
   width: 80px;
   height: 40px;
   margin-top: 20px;
-  margin-left: auto;
+  /*margin-left: auto;*/
 }
 
 /* post */
@@ -237,4 +236,17 @@ body {
 .widgets__widgetContainer h2 {
   font-size: 18px;
   font-weight: 800;
+}
+
+/* Personalized CSS*/
+.image-upload > input
+{
+  display: none;
+}
+
+.image-upload span
+{
+  width: 80px;
+  cursor: pointer;
+  align-self: center;
 }

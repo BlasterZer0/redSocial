@@ -25,4 +25,8 @@ Route::get('/', function () {
 Route::get('/home', function () {
     $tweets = Tweet::orderBy('id', 'desc')->paginate(5);
     return view('home')->with('tweets',$tweets);
-})->name('index');;
+})->name('index');
+
+Route::get('/tweet/{id}', function () {
+    return view('post');
+});
