@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use App\Models\Tweet;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -50,9 +52,6 @@ class TweetController extends Controller
             'image' => $fileName,
         ]);
         
-        //Session::flash('mensaje', 'Registro Creado con Exito!');
-        //$request->session()->flash('mensaje', 'Registro Creado con Exito!');
-        
         return redirect()->route('index');
     }
 
@@ -61,7 +60,9 @@ class TweetController extends Controller
      */
     public function show(Tweet $tweet)
     {
-        //
+        $user = User::orderBy('id', 'desc');
+        $comments = Tweet::find(1)->comments;
+        return view('tweet.tweet')->with('tweet', $tweet, 'comments', $comments)->with('user', $user);
     }
 
     /**
@@ -69,7 +70,7 @@ class TweetController extends Controller
      */
     public function edit(Tweet $tweet)
     {
-        return view('post')->with('tweet', $tweet);
+        //
     }
 
     /**
@@ -77,6 +78,8 @@ class TweetController extends Controller
      */
     public function update(Request $request, Tweet $tweet)
     {
+        $this->authorize('update', $tweet);
+
         $request->validate([
             'text' => ['required', 'string', 'max:255'],
             'image' => 'image|mimes:jpeg,png,jpg|max:2048',
@@ -94,19 +97,19 @@ class TweetController extends Controller
         
         $tweet->text = $request['text'];
         $tweet->save();
-        
-        //Session::flash('mensaje', 'Registro Creado con Exito!');
-        //$request->session()->flash('mensaje', 'Registro Creado con Exito!');
-        
+
         return redirect()->route('index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Tweet $tweet)
+    public function destroy(Tweet $tweet, Comment $comment)
     {
+        $this->authorize('delete', $tweet);
+
         $selectTweet = $tweet->find($tweet->id);
+        $tweet->comments()->delete();
         $selectTweet->delete();
         return redirect()->route('index');
     }

@@ -1,10 +1,11 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TweetController;
 use App\Models\Tweet;
 use App\Models\User;
-
+use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,17 +17,19 @@ use App\Models\User;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::resource('tweet', TweetController::class);
-
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
-Route::get('/home', function () {
-    $tweets = Tweet::orderBy('id', 'desc')->paginate(5);
-    return view('home')->with('tweets',$tweets);
-})->name('index');
+Route::middleware(['auth', 'auth.session'])->group(function () {
 
-Route::get('/tweet/{id}', function () {
-    return view('post');
+    Route::get('/home', function () {
+        $tweets = Tweet::orderBy('id', 'desc')->paginate(10);
+        $user = DB::table('users')->inRandomOrder();
+        return view('home')->with('tweets',$tweets)->with('user', $user);
+    })->name('index');
+    
+    Route::resource('tweet', TweetController::class);
+    
+    Route::resource('comment', CommentController::class);
 });
